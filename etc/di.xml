@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Console\CommandList">
+       <arguments>
+           <argument name="commands" xsi:type="array">
+               <item name="exampleSayHello" xsi:type="object">AHT\Training\Console\Sayhello</item>
+           </argument>
+       </arguments>
+   </type>
+   
+    <!-- API -->
+    <preference for="AHT\Training\Api\StudentRepositoryInterface" type="AHT\Training\Model\StudentRepository" />
+    <preference for="AHT\Training\Api\Data\StudentInterface" type="AHT\Training\Model\Student" />
+</config>

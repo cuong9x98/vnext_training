@@ -1,0 +1,73 @@
+<?php $gridrecords = $block->getCustomCollection(); ?>
+<?php if ($gridrecords && sizeof($gridrecords)): ?>
+    <div class="table-wrapper orders-history">
+        <!-- Search form -->
+        <form action="<?= $block->escapeHtml($block->getUrl('training/index')) ?>" method="post">
+            <input name="name" class="form-control" type="text" placeholder="Name" aria-label="Search" width="50px">
+            <br>
+            <br>
+            <input name="entity_id" class="form-control" type="text" placeholder="ID" aria-label="Search">
+            <br>
+            <br>
+            <label for="pet-select">Giới tính</label>
+            <select name="gender" id="pet-select">
+                <option value="">--Please choose an option--</option>
+                <option value="nam">Nam</option>
+                <option value="nữ">Nữ</option>
+            </select>
+            <br>
+            <br>
+            <label for="pet-select">Độ tuổi</label>
+            <select name="dob" id="pet-select">
+                <option value="">--Please choose an option--</option>
+                <option value="1">5tuổi->10tuổi</option>
+                <option value="2"> > 10 tuổi</option>
+            </select>
+            <button type="submit">search</button>
+        </form>
+<!--        Table-->
+        <table class="data table table-order-items history" id="my-orders-table">
+            <caption class="table-caption"><?php echo __('Grid Record') ?></caption>
+            <thead>
+            <tr>
+                <th scope="col" class="col id"><?php echo __('Entity Id') ?></th>
+                <th scope="col" class="col title"><?php echo __('Name') ?></th>
+                <th scope="col" class="col product"><?php echo __('Gender') ?></th>
+                <th scope="col" class="col amount"><?php echo __('Dob') ?></th>
+                <th scope="col" class="col amount"><?php echo __('Action') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($gridrecords as $students): ?>
+                <tr>
+                    <td data-th="<?= $block->escapeHtml(__('Entity Id')) ?>" class="col id">
+                        <?php echo $students->getId() ?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtml(__('Name')) ?>" class="col id">
+                        <?php echo $students->getName() ?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtml(__('Gender')) ?>" class="col id">
+                        <?php if($students->getGender()==1){
+                            echo "Nam";
+                        }else{
+                            echo "Nữ";
+                        } ?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtml(__('Dob')) ?>" class="col id">
+                        <?php echo $students->getDob() ?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtml(__('Detail')) ?>" class="col id">
+                        <a  href="<?php echo $block->getUrl('student/student/details').'?ids='.$students->getId() ?>">Detail</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+    <?php endif ?>
+<?php else: ?>
+    <div class="message info empty"><span><?php echo __('No any record.'); ?></span></div>
+<?php endif ?>
