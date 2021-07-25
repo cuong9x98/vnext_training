@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="AHT_Training::student" title="Student" translate="Student" module="AHT_Training" sortOrder="50"   resource="AHT_Training::student"/>
+		<add id="AHT_Training::index" title="Student" module="AHT_Training" parent="AHT_Training::student" action="studentadmin/student/index" resource="AHT_Training::index" sortOrder="55" />
+	</menu>
+</config>

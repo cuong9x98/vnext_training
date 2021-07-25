@@ -37,6 +37,14 @@ class Student extends \Magento\Framework\Model\AbstractModel implements \AHT\Tra
      *
      * @return string
      */
+    public function getId() {
+        return $this->getData("entity_id");
+    }
+    /**
+     * Undocumented function
+     *
+     * @return string
+     */
     public function getName() {
         return $this->getData("name");
     }

@@ -12,4 +12,19 @@
     <!-- API -->
     <preference for="AHT\Training\Api\StudentRepositoryInterface" type="AHT\Training\Model\StudentRepository" />
     <preference for="AHT\Training\Api\Data\StudentInterface" type="AHT\Training\Model\Student" />
+
+    <!-- Registration Data -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="student_index_listing_data_source" xsi:type="string">AHT\Training\Model\ResourceModel\Student\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="AHT\Training\Model\ResourceModel\Student\Grid\Collection" >
+        <arguments>
+            <argument name="mainTable" xsi:type="string">students</argument>
+            <argument name="resourceModel" xsi:type="string">AHT\Training\Model\ResourceModel\Student</argument>
+        </arguments>
+    </virtualType>
 </config>
