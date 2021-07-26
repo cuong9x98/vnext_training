@@ -5,6 +5,11 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class Index extends \Magento\Framework\App\Action\Action
 {
+    /**
+     * @var \Magento\UrlRewrite\Model\UrlRewriteFactory
+     */
+    protected $_urlRewriteFactory;
+
     protected $resultRedirectFactory;
 
     protected $_forwardFactory;
@@ -24,44 +29,33 @@ class Index extends \Magento\Framework\App\Action\Action
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
+        \AHT\Training\Model\ResourceModel\Student\CollectionFactory $studentCollection,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\Controller\Result\ForwardFactory $forwardFactory,
-        \Magento\Framework\Controller\Result\RedirectFactory $resultRedirectFactory,
-
-        TransportBuilder $transportBuilder,
-        StoreManagerInterface $storeManager,
-        \AHT\Training\Model\ResourceModel\Student\CollectionFactory $studentCollection
+        \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory,
+        \Magento\Framework\Controller\Result\ForwardFactory $forwardFactory
         )
     {
-        $this->resultRedirectFactory = $resultRedirectFactory;
+
         $this->_forwardFactory = $forwardFactory;
         $this->scopeConfig = $scopeConfig;
-        $this->resultPageFactory = $resultPageFactory;
-
-        $this->transportBuilder = $transportBuilder;
         $this->studentCollection = $studentCollection;
-        $this->storeManager = $storeManager;
+        $this->_urlRewriteFactory = $urlRewriteFactory;
+        $this->resultPageFactory = $resultPageFactory;
 
         parent::__construct($context);
     }
-    /**
-     * Blog Index, shows a list of recent blog posts.
-     *
-     * @return \Magento\Framework\View\Result\PageFactory
-     */
+
     public function execute()
     {
-        $currentDate = date('m-d');
+        $student_index_url = $this->scopeConfig->getValue('training/seo_training/student_index_url',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $postfix_url = $this->scopeConfig->getValue('training/seo_training/postfix_url',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
         $collection = $this->studentCollection->create();
         foreach ($collection as $coll) {
-            $time = $coll->getDob();
-            $date =  substr($time,5,5);
-            if ($currentDate==$date){
-                $customerName = $coll->getName();
-                $customerEmail = $coll->getEmail();
-                $this->sendData($customerName,$customerEmail);
-            }
+            $id = $coll->getId();
+            $slug = $coll->getSlug();
+            $this->rewriteurl($slug,$id,$student_index_url,$postfix_url);
         }
 
         $check = $this->scopeConfig->getValue('training/general_training/enable',\Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE);
@@ -76,31 +70,21 @@ class Index extends \Magento\Framework\App\Action\Action
 
 
     }
-    public function sendData($customerName,$customerEmail)
+    function rewriteurl($slug,$id,$student_index_url,$postfix_url)
     {
-        //-------------------------------------Send email
-        $receiverInfo = [
-            'name' => $customerName,
-            'email' => $customerEmail,
-        ];
-
-        $store = $this->storeManager->getStore();
-
-        $templateParams = ['store' => $store, 'administrator_name' => $receiverInfo['name']];
-
-        $transport = $this->transportBuilder->setTemplateIdentifier(
-            'question_pending_question_email_template'
-        )->setTemplateOptions(
-            ['area' => 'frontend', 'store' => $store->getId()]
-        )->addTo(
-            $receiverInfo['email'], $receiverInfo['name']
-        )->setTemplateVars(
-            $templateParams
-        )->setFrom(
-            'general'
-        )->getTransport();
-        $transport->sendMessage();
-        //---------------------------------------End send email
+        $urlRewriteModel = $this->_urlRewriteFactory->create();
+        /* set current store id */
+//        $urlRewriteModel->setStoreId(1);
+        /* this url is not created by system so set as 0 */
+        $urlRewriteModel->setIsSystem(0);
+        /* unique identifier - set random unique value to id path */
+        $urlRewriteModel->setIdPath(rand(1, 100000));
+        /* set actual url path to target path field */
+        $urlRewriteModel->setTargetPath("student/student/details/?ids=".$id);
+        /* set requested path which you want to create */
+        $urlRewriteModel->setRequestPath($student_index_url.'/'.$slug.''.$postfix_url);
+        /* set current store id */
+        $urlRewriteModel->save();
     }
 
 }

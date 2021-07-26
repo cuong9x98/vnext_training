@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="default">
-        <job name="cron_job_training" instance="AHT\Training\Cron\SendEmail" method="execute" >
+        <job name="cron_job_training_vnext" instance="AHT\Training\Cron\SendEmail" method="execute" >
             <schedule>* * * * *</schedule>
         </job>
     </group>

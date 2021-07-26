@@ -56,7 +56,7 @@ class SendEmail
         $this->transportBuilder = $transportBuilder;
         $this->studentCollection = $studentCollection;
         $this->storeManager = $storeManager;
-        parent::__construct($context);
+
     }
 
     public function execute()

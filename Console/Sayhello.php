@@ -9,7 +9,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Sayhello extends Command
 {
+    protected $scopeConfig;
+
     protected $studentCollection;
+
 
     /**
      * @inheritDoc
@@ -24,10 +27,12 @@ class Sayhello extends Command
 
     public function __construct(
         \AHT\Training\Model\ResourceModel\Student\CollectionFactory $studentCollection,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         string $name = null
     )
     {
         $this->studentCollection = $studentCollection;
+        $this->scopeConfig = $scopeConfig;
         parent::__construct($name);
     }
 
@@ -39,15 +44,47 @@ class Sayhello extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $student_index_url = $this->scopeConfig->getValue('training/seo_training/student_index_url',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $postfix_url = $this->scopeConfig->getValue('training/seo_training/postfix_url',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
         $collection = $this->studentCollection->create();
         foreach ($collection as $coll) {
             $name = $this->slug($coll->getName());
+            $id = $coll->getId();
+            $slug = $name.'-'.$id;
+            $coll->setSlug($name.'-'.$id);
+            $coll->save();
+
+            $this->rewriteurl($slug,$id,$student_index_url,$postfix_url);
         }
-        $output->writeln($name);
+        $output->writeln('<info>Success Message.</info>');
     }
-    function slug($string)
+    function slug($text)
     {
-        $slug=preg_replace('/[^A-Za-z0-9-]+/', '-', $string);
-        return $slug;
+        $divider = '-';
+        // replace non letter or digits by divider
+        $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, $divider);
+
+        // remove duplicate divider
+        $text = preg_replace('~-+~', $divider, $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+        return $text;
     }
+
+
 }
