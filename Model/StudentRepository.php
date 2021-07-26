@@ -5,25 +5,39 @@ use AHT\Training\Model\StudentFactory;
 use AHT\Training\Model\ResourceModel\Student;
 use AHT\Training\Api\Data\StudentInterface;
 use AHT\Training\Model\ResourceModel\Student as Resource;
+use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
+use AHT\Training\Api\Data\StudentSearchResultInterface;
+use AHT\Training\Model\ResourceModel\Student\CollectionFactory;
 
 class StudentRepository implements \AHT\Training\Api\StudentRepositoryInterface {
 
+    protected $collectionProcessor;
     protected $resource;
     protected $_studentFactory;
     protected $_studentResource;
     protected $_request;
+    protected $searchResultFactory;
+    protected $studentCollection;
+
     public function __construct(
         Resource  $resource,
         StudentFactory $studentFactory,
         Student $studentResource,
-        \Magento\Framework\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request,
+        StudentSearchResultInterface $studentSearchResultInterface,
+        CollectionProcessorInterface $collectionProcessor,
+        CollectionFactory $studentCollection
     ) {
+        $this->searchResultFactory = $studentSearchResultInterface;
+        $this->collectionProcessor = $collectionProcessor;
         $this->resource = $resource;
+        $this->studentCollection = $studentCollection;
         $this->_studentFactory = $studentFactory;
         $this->_studentResource = $studentResource;
         $this->_request = $request;
     }
-   
+
     /**
      * Undocumented function
      *
@@ -42,15 +56,20 @@ class StudentRepository implements \AHT\Training\Api\StudentRepositoryInterface 
      *
      * @return null
      */
-    public function getList() {
-        $collection = $this->_studentFactory->create()->getCollection();
-        return $collection->getData();
-    }
+    public function getList(SearchCriteriaInterface $searchCriteria)
+    {
+        $collection = $this->studentCollection->create();
+        $this->collectionProcessor->process($searchCriteria, $collection);
 
+        $searchResults = $this->searchResultFactory->create();
+//        $searchResults->setSearchCriteria($searchCriteria);
+        $searchResults->setItems($collection->getItems());
+        return $searchResults;
+    }
     /**
      * Save Block data
      *
-     * 
+     *
      * @return \AHT\Training\Model\Student
      */
     public function save(StudentInterface $qa) {

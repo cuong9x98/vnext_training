@@ -28,7 +28,7 @@
             <resource ref="anonymous" />
         </resources>
     </route>
-    
+
    <route url="/V1/updateStudent/:qaId" method="PUT">
         <service class="AHT\Training\Api\StudentRepositoryInterface" method="updatePost"/>
         <resources>

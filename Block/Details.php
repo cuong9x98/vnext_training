@@ -25,8 +25,6 @@ class Details extends \Magento\Framework\View\Element\Template
     {
         $student =$this->getRequest()->getParam('ids');
         $result = $this->student_factory->create()->load($student);
-//        $this->_studentResource->load($result, $student);
-
         return $result;
     }
 }

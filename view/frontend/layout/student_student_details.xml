@@ -2,7 +2,12 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block class="AHT\Training\Block\Details" name="detail_student" template="student_detail.phtml"></block>
+            <block class="AHT\Training\Block\Details" name="detail_student" template="student_detail.phtml">
+                <arguments>
+                    <argument name="type" xsi:type="string">upsell</argument>
+                    <argument name="view_model" xsi:type="object">AHT\Training\ViewModel\Details</argument>
+                </arguments>
+            </block>
         </referenceContainer>
     </body>
 </page>
