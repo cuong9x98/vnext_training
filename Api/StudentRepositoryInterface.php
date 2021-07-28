@@ -13,11 +13,10 @@ namespace AHT\Training\Api;
 interface StudentRepositoryInterface
 {
     /**
-     * Undocumented function
-     *  * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
-     * @return
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
+     * @return \AHT\Training\Api\Data\StudentSearchResultInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-
     public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 
    /**
