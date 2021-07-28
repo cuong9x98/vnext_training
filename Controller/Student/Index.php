@@ -5,26 +5,18 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class Index extends \Magento\Framework\App\Action\Action
 {
-    /**
-     * @var \Magento\UrlRewrite\Model\UrlRewriteFactory
-     */
+    /** @var  \Magento\UrlRewrite\Model\UrlRewriteFactory*/
     protected $_urlRewriteFactory;
 
     protected $resultRedirectFactory;
 
-    protected $_forwardFactory;
-
+    /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
     protected $scopeConfig;
-    /** @var  \Magento\Framework\View\Result\Page */
+
+    /** @var  \Magento\Framework\View\Result\PageFactory*/
     protected $resultPageFactory;
-    /**      * @param \Magento\Framework\App\Action\Context $context      */
 
-    protected $storeManager;
-    /**
-     * @var TransportBuilder
-     */
-    protected $transportBuilder;
-
+    /** @var  \AHT\Training\Model\ResourceModel\Student\CollectionFactory*/
     protected $studentCollection;
 
     public function __construct(
@@ -32,12 +24,10 @@ class Index extends \Magento\Framework\App\Action\Action
         \AHT\Training\Model\ResourceModel\Student\CollectionFactory $studentCollection,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory,
-        \Magento\Framework\Controller\Result\ForwardFactory $forwardFactory
+        \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory
         )
     {
 
-        $this->_forwardFactory = $forwardFactory;
         $this->scopeConfig = $scopeConfig;
         $this->studentCollection = $studentCollection;
         $this->_urlRewriteFactory = $urlRewriteFactory;

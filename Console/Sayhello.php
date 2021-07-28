@@ -13,10 +13,6 @@ class Sayhello extends Command
 
     protected $studentCollection;
 
-
-    /**
-     * @inheritDoc
-     */
     protected function configure()
     {
         $this->setName('example:sayhello');

@@ -5,17 +5,14 @@ use Magento\Framework\View\Element\Template\Context;
 
 class Details extends \Magento\Framework\View\Element\Template
 {
+    /** @var  \AHT\Training\Model\StudentFactory*/
     protected $student_factory;
-
-    protected $_studentResource;
 
     public function __construct(
         Context $context,
-        \AHT\Training\Model\StudentFactory $student_factory,
-        \AHT\Training\Model\ResourceModel\Student $studentResource
+        \AHT\Training\Model\StudentFactory $student_factory
     )
     {
-        $this->_studentResource = $studentResource;
         $this->student_factory = $student_factory;
         parent::__construct($context);
     }

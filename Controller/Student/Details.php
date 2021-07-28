@@ -25,11 +25,7 @@ class Details extends \Magento\Framework\App\Action\Action
         parent::__construct($context);
     }
 
-    /**
-     * Blog Index, shows a list of recent blog posts.
-     *
-     * @return \Magento\Framework\View\Result\PageFactory
-     */
+
     public function execute()
     {
         $resultPage = $this->resultPageFactory->create();

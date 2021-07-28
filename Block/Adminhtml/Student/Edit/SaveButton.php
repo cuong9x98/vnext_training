@@ -46,7 +46,6 @@ class SaveButton implements ButtonProviderInterface
             'options' => $this->getOptions(),
         ];
     }
-
     /**
      * Retrieve options
      *

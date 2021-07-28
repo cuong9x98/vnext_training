@@ -8,12 +8,12 @@ use Magento\Framework\Pricing\Helper\Data as priceHelper;
 
 class Students extends Template
 {
+    /** @var  AHT\Training\Model\Student*/
     protected $customCollection;
-    protected $priceHepler;
-    public function __construct(Context $context, Student $customCollection,priceHelper $priceHepler)
+
+    public function __construct(Context $context, Student $customCollection)
     {
         $this->customCollection = $customCollection;
-        $this->priceHepler = $priceHepler;
         parent::__construct($context);
     }
     protected function _prepareLayout()
@@ -46,8 +46,5 @@ class Students extends Template
         $collection->setCurPage($page);
         return $collection;
     }
-    public function getFormattedPrice($price)
-    {
-        return $this->priceHepler->currency(number_format($price, 2), true, false);
-    }
+
 }

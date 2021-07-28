@@ -1,9 +1,9 @@
 <?php
+
 namespace AHT\Training\Api\Data;
 
-/**
- * Factory class for @see \AHT\Training\Api\Data\StudentSearchResultInterface
- */
+use Magento\Framework\Api\SearchResultsInterface;
+
 interface StudentSearchResultInterface extends SearchResultsInterface
 {
     /**
@@ -12,7 +12,7 @@ interface StudentSearchResultInterface extends SearchResultsInterface
     public function getItems();
 
     /**
-     * @param \\AHT\Training\Api\Data\StudentInterface[] $items
+     * @param \AHT\Training\Api\Data\StudentInterface[] $items
      * @return void
      */
     public function setItems(array $items);

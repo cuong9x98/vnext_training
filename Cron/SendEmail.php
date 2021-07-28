@@ -10,41 +10,12 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class SendEmail
 {
-    /**
-     * @var DataPersistorInterface
-     */
-    protected $dataPersistor;
-
-    /**
-     * @var BlockFactory
-     */
-    private $questionFactory;
-
-    /**
-     * @var BlockRepositoryInterface
-     */
-    private $blockRepository;
-    /**
-     * @var StoreManagerInterface
-     */
+    /** @var  Magento\Store\Model\StoreManagerInterface */
     protected $storeManager;
-    /**
-     * @var TransportBuilder
-     */
+    /** @var  Magento\Framework\Mail\Template\TransportBuilder */
     protected $transportBuilder;
-
+    /** @var  \AHT\Training\Model\ResourceModel\Student\CollectionFactory */
     protected $studentCollection;
-
-
-    /**
-     * @param Context $context
-     * @param Registry $coreRegistry
-     * @param DataPersistorInterface $dataPersistor
-     * @param BlockFactory|null $blockFactory
-     * @param BlockRepositoryInterface|null $blockRepository ,
-     *
-     */
-
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -56,7 +27,6 @@ class SendEmail
         $this->transportBuilder = $transportBuilder;
         $this->studentCollection = $studentCollection;
         $this->storeManager = $storeManager;
-
     }
 
     public function execute()

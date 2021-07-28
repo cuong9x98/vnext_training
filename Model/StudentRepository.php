@@ -7,7 +7,7 @@ use AHT\Training\Api\Data\StudentInterface;
 use AHT\Training\Model\ResourceModel\Student as Resource;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
-use AHT\Training\Api\Data\StudentSearchResultInterface;
+use AHT\Training\Api\Data\StudentSearchResultInterfaceFactory;
 use AHT\Training\Model\ResourceModel\Student\CollectionFactory;
 
 class StudentRepository implements \AHT\Training\Api\StudentRepositoryInterface {
@@ -25,7 +25,7 @@ class StudentRepository implements \AHT\Training\Api\StudentRepositoryInterface 
         StudentFactory $studentFactory,
         Student $studentResource,
         \Magento\Framework\App\RequestInterface $request,
-        StudentSearchResultInterface $studentSearchResultInterface,
+        StudentSearchResultInterfaceFactory $studentSearchResultInterface,
         CollectionProcessorInterface $collectionProcessor,
         CollectionFactory $studentCollection
     ) {
@@ -51,21 +51,6 @@ class StudentRepository implements \AHT\Training\Api\StudentRepositoryInterface 
         return $model->getData();
     }
 
-    /**
-     * Undocumented function
-     *
-     * @return null
-     */
-    public function getList(SearchCriteriaInterface $searchCriteria)
-    {
-        $collection = $this->studentCollection->create();
-        $this->collectionProcessor->process($searchCriteria, $collection);
-
-        $searchResults = $this->searchResultFactory->create();
-//        $searchResults->setSearchCriteria($searchCriteria);
-        $searchResults->setItems($collection->getItems());
-        return $searchResults;
-    }
     /**
      * Save Block data
      *
@@ -97,5 +82,21 @@ class StudentRepository implements \AHT\Training\Api\StudentRepositoryInterface 
         $this->resource->load($model, $id);
         $model->delete();
         return true;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return null
+     */
+    public function getList(SearchCriteriaInterface $searchCriteria)
+    {
+        $collection = $this->studentCollectionFactory->create();
+        $this->collectionProcessor->process($searchCriteria, $collection);
+        $searchResults = $this->searchResultFactory->create();
+        $searchResults->setSearchCriteria($searchCriteria);
+        $searchResults->setItems($collection->getItems());
+
+        return $searchResults;
     }
 }

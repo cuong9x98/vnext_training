@@ -14,7 +14,8 @@ interface StudentRepositoryInterface
 {
     /**
      * Undocumented function
-     * @return null
+     *  * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
+     * @return
      */
 
     public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
@@ -31,7 +32,7 @@ interface StudentRepositoryInterface
      * Undocumented function
      *
      *
-     * @return \AHT\Training\Model\Student
+     * @return \AHT\Training\Model\Student $qa
      */
     public function save(\AHT\Training\Api\Data\StudentInterface $qa);
 
