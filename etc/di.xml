@@ -8,10 +8,11 @@
            </argument>
        </arguments>
    </type>
-   
+
     <!-- API -->
     <preference for="AHT\Training\Api\StudentRepositoryInterface" type="AHT\Training\Model\StudentRepository" />
     <preference for="AHT\Training\Api\Data\StudentInterface" type="AHT\Training\Model\Student" />
+    <preference for="AHT\Training\Api\StudentSearchResultInterface" type="AHT\Training\Model\StudentSearchResult" />
 
     <!-- Registration Data -->
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">

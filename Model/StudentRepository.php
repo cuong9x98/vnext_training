@@ -91,7 +91,7 @@ class StudentRepository implements \AHT\Training\Api\StudentRepositoryInterface 
      */
     public function getList(SearchCriteriaInterface $searchCriteria)
     {
-        $collection = $this->studentCollectionFactory->create();
+        $collection = $this->studentCollection->create();
         $this->collectionProcessor->process($searchCriteria, $collection);
         $searchResults = $this->searchResultFactory->create();
         $searchResults->setSearchCriteria($searchCriteria);

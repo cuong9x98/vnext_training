@@ -45,7 +45,7 @@ class Index extends \Magento\Framework\App\Action\Action
         foreach ($collection as $coll) {
             $id = $coll->getId();
             $slug = $coll->getSlug();
-            $this->rewriteurl($slug,$id,$student_index_url,$postfix_url);
+//            $this->rewriteurl($slug,$id,$student_index_url,$postfix_url);
         }
 
         $check = $this->scopeConfig->getValue('training/general_training/enable',\Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE);
