@@ -50,8 +50,6 @@ class Sayhello extends Command
             $slug = $name.'-'.$id;
             $coll->setSlug($name.'-'.$id);
             $coll->save();
-
-            $this->rewriteurl($slug,$id,$student_index_url,$postfix_url);
         }
         $output->writeln('<info>Success Message.</info>');
     }

@@ -28,4 +28,10 @@
             <argument name="resourceModel" xsi:type="string">AHT\Training\Model\ResourceModel\Student</argument>
         </arguments>
     </virtualType>
+    <!-- Plugin -->
+    <type name="AHT\Training\Model\Student">
+        <plugin name="update-student-name" type="AHT\Training\Plugin\UpdateName" sortOrder="1" disabled="false"/>
+    </type>
+<!--    preference-->
+    <preference for="Magento\Catalog\Model\Product" type="AHT\Training\Model\Catalog\Product" />
 </config>
